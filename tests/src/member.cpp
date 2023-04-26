@@ -9,8 +9,10 @@ TEST_CASE("Member") {
 	using namespace hs;
 
 	Member member{
-	    .first_name = "Seunghyun",
-	    .last_name  = "Hwang",
+	    .name = {
+			.first= "Seunghyun",
+			.last = "Hwang",
+		}, 
 	    .birth      = timePointFromDate(1, 3, 1995),
 	};
 
@@ -18,9 +20,5 @@ TEST_CASE("Member") {
 		REQUIRE(28 == member.ageAt(timePointFromDate(28, 2, 2023)));  // leap year is not considered.
 		REQUIRE(28 == member.ageAt(timePointFromDate(1, 3, 2023)));
 		REQUIRE(28 == member.ageAt(timePointFromDate(2, 3, 2023)));
-	}
-
-	SECTION("::fullname") {
-		REQUIRE("Seunghyun Hwang" == member.fullname());
 	}
 }

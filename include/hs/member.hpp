@@ -4,6 +4,8 @@
 #include <cstddef>
 #include <string>
 
+#include "hs/types.hpp"
+
 namespace hs {
 
 class Member {
@@ -18,16 +20,11 @@ class Member {
 		return ageAt(std::chrono::system_clock::now());
 	}
 
-	//
-	std::string fullname() const {
-		return this->first_name + " " + this->last_name;
-	}
-
 	std::string id;
-	std::string first_name;
-	std::string last_name;
+	Name        name;
 
 	std::chrono::system_clock::time_point birth;
+	std::chrono::system_clock::time_point created_at;
 };
 
 }  // namespace hs

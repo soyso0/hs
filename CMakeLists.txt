@@ -20,9 +20,12 @@ add_library(
 		include/hs/member_store.hpp
 		include/hs/member.hpp
 		include/hs/time.hpp
+		include/hs/types.hpp
+		include/hs/utils.hpp
 
 		src/member_store.cpp
 		src/member.cpp
+		src/utils.cpp
 )
 target_include_directories(
 	hs PUBLIC
