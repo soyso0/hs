@@ -21,6 +21,7 @@ class Member {
 	}
 
 	std::string id;
+	std::string password;
 	Name        name;
 
 	std::chrono::system_clock::time_point birth;

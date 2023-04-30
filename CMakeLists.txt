@@ -35,7 +35,15 @@ target_include_directories(
 
 add_executable(
 	hs-app
-		app/main.cpp
+		app/include/hs/app.hpp
+
+		app/src/app.cpp
+		app/src/main.cpp
+)
+target_include_directories(
+	hs PUBLIC
+		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/app/include>
+		$<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/app/include>
 )
 target_link_libraries(
 	hs-app PRIVATE
