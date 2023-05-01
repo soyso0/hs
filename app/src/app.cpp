@@ -30,6 +30,7 @@ Action App::promptMain() {
 	using namespace std;
 
 	cout << "0. 로그아웃" << endl;
+	cout << "9. 회원탈퇴" << endl;
 
 	int selected;
 	do {
@@ -37,6 +38,7 @@ Action App::promptMain() {
 
 		switch(selected) {
 		case 0: return Action::SignOut;
+		case 9: return Action::DeleteAccount;
 
 		default:
 			cout << "값을 잘못 입력했습니다. " << endl;
@@ -46,16 +48,57 @@ Action App::promptMain() {
 }
 
 void App::promptSignUp() {
-	hs::Member member;
+	Member::Kind kind = Member::Kind::Unspecified;
+	std::string  yn;
+	do {
+		std::cout << "일반 회원 입니까? [y/n]: ";
+		std::cin >> yn;
+
+		if(yn == "y") {
+			kind = Member::Kind::Normal;
+		} else if(yn == "n") {
+			kind = Member::Kind::Business;
+		} else {
+			std::cout << "\"y\" 또는 \"n\"을 입력해주세요." << std::endl;
+		}
+	} while(kind == Member::Kind::Unspecified);
+
+	std::shared_ptr<Member> member;
+	switch(kind) {
+	case Member::Kind::Normal: {
+		member = std::make_shared<hs::NormalMember>();
+		break;
+	}
+
+	case Member::Kind::Business: {
+		member = std::make_shared<hs::BusinessMember>();
+		break;
+	}
+
+	default: {
+		throw std::logic_error("invalid member kind");
+	}
+	}
 
 	std::cout << "ID를 입력 하세요.";
-	std::cin >> member.id;
+	std::cin >> member->id;
+
+	if(member->id.empty()) {
+		return;
+	}
 
 	std::cout << "비밀번호를 입력 하세요.";
-	std::cin >> member.password;
+	std::cin >> member->password;
 
 	std::cout << "이름을 입력 하세요.";
-	std::cin >> member.name.first;
+	std::cin >> member->name.first;
+
+	if(kind == Member::Kind::Business) {
+		std::shared_ptr<BusinessMember> bm = std::dynamic_pointer_cast<BusinessMember>(member);
+
+		std::cout << "회사명을 입력 하세요.";
+		std::cin >> bm->company;
+	}
 
 	this->members.put(member);
 }
@@ -76,12 +119,12 @@ void App::promptSignIn() {
 		break;
 	}
 
-	Member member = this->members.get(id);
+	auto member = this->members.get(id);
 	while(true) {
 		std::cout << "비밀번호를 입력 하세요." << std::flush;
 		std::cin >> pw;
 
-		if(pw != member.password) {
+		if(pw != member->password) {
 			std::cout << "잘못된 비밀번호 입니다." << std::endl;
 			continue;
 		}
@@ -90,7 +133,13 @@ void App::promptSignIn() {
 	}
 
 	this->current_member = member;
-	std::cout << member.name.first << "님 안녕하세요!" << std::endl;
+	std::cout << member->name.first << "(" << hs::to_string(member->kind()) << ")"
+	          << " 님 안녕하세요!" << std::endl;
+}
+
+void App::deleteCurrentAccount() {
+	this->members.remove(this->current_member->id);
+	this->signOut();
 }
 
 }  // namespace hs

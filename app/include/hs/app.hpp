@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "hs/member_store.hpp"
 
 namespace hs {
@@ -10,12 +12,13 @@ enum class Action {
 	SignIn,
 	SignUp,
 	SignOut,
+	DeleteAccount,
 };
 
 class App {
    public:
 	bool hasSignedIn() {
-		return !this->current_member.name.first.empty();
+		return current_member != nullptr;
 	}
 
 	Action promptInit();
@@ -27,13 +30,17 @@ class App {
 	void promptSignIn();
 
 	void signOut() {
-		std::cout << this->current_member.name.first << "님 안녕히 가세요!" << std::endl;
-		this->current_member.name.first.clear();
+		std::cout << this->current_member->name.first << "님 안녕히 가세요!" << std::endl;
+
+		this->current_member = nullptr;
 	}
+
+	void deleteCurrentAccount();
 
 	hs::MemberStore members;
 
-	hs::Member current_member;
+	//현재 로그인 상태인 멤버.
+	std::shared_ptr<hs::Member> current_member;
 };
 
 }  // namespace hs

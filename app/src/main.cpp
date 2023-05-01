@@ -13,7 +13,12 @@ int main(int argc, char* argv[]) {
 			hs::Action const action = app.promptInit();
 			switch(action) {
 			case hs::Action::SignUp: {
-				app.promptSignUp();
+				try {
+					app.promptSignUp();
+				} catch(std::exception const& e) {
+					// Exception handling.
+				}
+
 				break;
 			}
 
@@ -32,9 +37,14 @@ int main(int argc, char* argv[]) {
 
 		hs::Action const action = app.promptMain();
 		switch(action) {
-		case hs::Action::SignOut:
+		case hs::Action::SignOut: {
 			app.signOut();
 			break;
+		}
+
+		case hs::Action::DeleteAccount: {
+			app.deleteCurrentAccount();
+		}
 
 		default:
 			break;
