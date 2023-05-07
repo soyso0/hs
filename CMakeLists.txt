@@ -17,12 +17,14 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_library(
 	hs
+		include/hs/job_info.hpp
 		include/hs/member_store.hpp
 		include/hs/member.hpp
 		include/hs/time.hpp
 		include/hs/types.hpp
 		include/hs/utils.hpp
 
+		src/job_info.cpp
 		src/member_store.cpp
 		src/member.cpp
 		src/utils.cpp

@@ -35,7 +35,21 @@ int main(int argc, char* argv[]) {
 			continue;
 		}
 
-		hs::Action const action = app.promptMain();
+		hs::Action action;
+		switch(app.current_member->kind()) {
+		case hs::Member::Kind::Normal: {
+			action = app.promptMainForNormal();
+			break;
+		}
+
+		case hs::Member::Kind::Business: {
+			action = app.promptMainFormBusiness();
+			break;
+		}
+
+		default: throw std::logic_error("invalid member kind");
+		}
+
 		switch(action) {
 		case hs::Action::SignOut: {
 			app.signOut();
@@ -44,6 +58,10 @@ int main(int argc, char* argv[]) {
 
 		case hs::Action::DeleteAccount: {
 			app.deleteCurrentAccount();
+		}
+
+		case hs::Action::REgistr...: {
+			app.promptRegisterJobInfo();
 		}
 
 		default:

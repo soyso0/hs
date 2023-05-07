@@ -26,10 +26,34 @@ Action App::promptInit() {
 	} while(true);
 }
 
+/*
 Action App::promptMain() {
 	using namespace std;
-
+	Member::Kind kind = Member::Kind::Unspecified;
 	cout << "0. 로그아웃" << endl;
+
+	cout << "9. 회원탈퇴" << endl;
+
+	int selected;//
+	do {
+		cin >> selected;
+
+		switch(selected) {
+		case 0: return Action::SignOut;
+		case 9: return Action::DeleteAccount;
+
+		default:
+			cout << "값을 잘못 입력했습니다. " << endl;
+			break;
+		}
+	} while(true);
+}
+*/
+
+Action promptMainForNormal() {
+	using namespace std;
+	cout << "0. 로그아웃" << endl;
+	cout << "1. 채용 정보 조회" << endl;
 	cout << "9. 회원탈퇴" << endl;
 
 	int selected;
@@ -45,6 +69,13 @@ Action App::promptMain() {
 			break;
 		}
 	} while(true);
+}
+
+Action promptMainFormBusiness() {
+	using namespace std;
+	cout << "0. 로그아웃" << endl;
+	cout << "1. 채용 정보 등록" << endl;
+	cout << "9. 회원탈퇴" << endl;
 }
 
 void App::promptSignUp() {
@@ -135,6 +166,9 @@ void App::promptSignIn() {
 	this->current_member = member;
 	std::cout << member->name.first << "(" << hs::to_string(member->kind()) << ")"
 	          << " 님 안녕하세요!" << std::endl;
+}
+
+void promptRegisterJobInfo() {
 }
 
 void App::deleteCurrentAccount() {

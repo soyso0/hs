@@ -5,6 +5,7 @@
 #include <string>
 
 #include "hs/member.hpp"
+#include "hs/types.hpp"
 
 namespace hs {
 
